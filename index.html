@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panorámicas y Megapixel — UIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">&#128444;</div>
+    PANOR&#193;MICAS &amp; <span>MEGAPIXEL</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#como-funciona">&#191;C&#243;mo funciona?</a></li>
+    <li><a href="#subir">Subir im&#225;genes</a></li>
+    <li><a href="galeria.html">&#127760; Galer&#237;a</a></li>
+  </ul>
+  <button class="btn-primary" onclick="document.getElementById('subir').scrollIntoView({behavior:'smooth'})">
+    &#9729;&#65039; Subir im&#225;genes
+  </button>
+</nav>
+
+<!-- ── HERO ── -->
+<section style="max-width:1200px;margin:0 auto;">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">&#127956; Visi&#243;n por Computadora &middot; UIS 2026</div>
+      <h1>Panor&#225;micas incre&#237;bles<br><span class="highlight">en segundos</span></h1>
+      <p>Nuestro algoritmo une tus im&#225;genes de forma autom&#225;tica para crear panor&#225;micas y megap&#237;xeles llenas de detalle.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" style="padding:13px 24px;font-size:15px;"
+          onclick="document.getElementById('subir').scrollIntoView({behavior:'smooth'})">
+          &#9729;&#65039; Subir mis im&#225;genes
+        </button>
+        <button class="btn-secondary" style="padding:13px 24px;font-size:15px;"
+          onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">
+          &#128444; &#191;C&#243;mo funciona?
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-visual">
+        <div class="photo-strip">
+          <img class="photo-placeholder" src="assets/images/left.png" style="object-fit:cover;">
+          <img class="photo-placeholder" src="assets/images/center.png" style="object-fit:cover;">
+          <img class="photo-placeholder" src="assets/images/center.png" style="object-fit:cover;">
+        </div>
+        <div class="arrow-down">&#8595;</div>
+        <div class="photo-result">
+          <img src="assets/images/panoramica.png" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CÓMO FUNCIONA ── -->
+<section class="how" id="como-funciona">
+  <h2>&#191;C&#243;mo funciona?</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-icon">&#9729;&#65039;</div>
+      <h4>Sube tus fotos</h4>
+      <p>Selecciona al menos 2 im&#225;genes con solapamiento.</p>
+    </div>
+    <div class="step-arrow"><div class="dash"></div><div class="dash"></div><div class="dash"></div>&#8250;</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-icon">&#8855;</div>
+      <h4>Procesamos</h4>
+      <p>Nuestro algoritmo detecta puntos clave y alinea tus im&#225;genes.</p>
+    </div>
+    <div class="step-arrow"><div class="dash"></div><div class="dash"></div><div class="dash"></div>&#8250;</div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-icon">&#10022;</div>
+      <h4>Generamos tu imagen</h4>
+      <p>Creamos una panor&#225;mica o imagen megap&#237;xel de alta calidad.</p>
+    </div>
+    <div class="step-arrow"><div class="dash"></div><div class="dash"></div><div class="dash"></div>&#8250;</div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-icon">&#128065;</div>
+      <h4>Explora y descarga</h4>
+      <p>Aprecia cada detalle con el visor interactivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBIR IMÁGENES ── -->
+<section class="upload-section" id="subir">
+  <h2>Generar imagen</h2>
+  <p>Sube tus fotos y elige el tipo de imagen que quieres crear.</p>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-pan" onclick="setMode('panoramica')">&#127749; Panor&#225;mica</button>
+    <button class="mode-tab"        id="tab-gig" onclick="setMode('megapixel')">&#128301; Megapixel</button>
+  </div>
+
+  <div class="upload-area" id="upload-area">
+    <input type="file" id="file-input" multiple accept="image/*" style="display:none">
+    <div class="upload-icon">&#128193;</div>
+    <h4>Arrastra tus fotos aqu&#237;</h4>
+    <p>o haz click para seleccionarlas &middot; M&#237;nimo 2 im&#225;genes &middot; JPG, PNG</p>
+  </div>
+
+  <div class="file-list" id="file-list"></div>
+  <div class="error-box" id="error-box"></div>
+
+  <div class="generate-row">
+    <button class="btn-primary" style="padding:13px 28px;font-size:15px;"
+      onclick="generarImagen()" id="btn-generar">
+      &#10022; Generar
+    </button>
+    <span id="file-count" style="font-size:13px;color:var(--gray-400);">0 im&#225;genes seleccionadas</span>
+  </div>
+
+  <div class="processing-overlay" id="processing">
+    <div class="spinner"></div>
+    <h4 style="font-size:16px;font-weight:600;margin-bottom:8px;">Procesando tus im&#225;genes...</h4>
+    <p style="font-size:13px;color:var(--gray-400);">Esto puede tomar unos minutos.</p>
+    <div class="processing-steps">
+      <div class="proc-step" id="ps1">&#9203; Subiendo im&#225;genes...</div>
+      <div class="proc-step" id="ps2">&#9203; Detectando puntos clave (ORB)...</div>
+      <div class="proc-step" id="ps3">&#9203; Calculando homograf&#237;a (RANSAC)...</div>
+      <div class="proc-step" id="ps4">&#9203; Ensamblando imagen final...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VISOR ── -->
+<section class="viewer-section" id="viewer-section">
+  <div class="viewer-header">
+    <div class="viewer-title">
+      <h3>Visor interactivo</h3>
+      <span class="viewer-hint">Scroll para zoom &middot; arrastra para mover</span>
+      <div class="viewer-res" id="viewer-res">&#8212; MP</div>
+    </div>
+    <div class="viewer-controls">
+      <button class="ctrl-btn" onclick="zoomVisor(1.3)">+</button>
+      <button class="ctrl-btn" onclick="zoomVisor(0.77)">&#8722;</button>
+      <button class="ctrl-btn" onclick="resetVisor()">&#8861;</button>
+    </div>
+  </div>
+
+  <div class="viewer-frame" id="viewer-frame">
+    <img id="viewer-img" draggable="false" alt="Resultado">
+    <div class="viewer-minimap" id="minimap">
+      <img id="minimap-img" class="minimap-img" alt="">
+      <div class="minimap-cursor" id="minimap-cursor"></div>
+    </div>
+  </div>
+
+  <!-- ── DOS BOTONES: descargar + publicar ── -->
+  <div class="viewer-actions">
+    <button class="btn-download" id="btn-download">&#8595; Descargar imagen</button>
+    <button class="btn-secondary" id="btn-publicar-galeria"
+      style="padding:14px 28px;font-size:15px;display:none;"
+      onclick="irAPublicar()">
+      &#8679; Publicar en galer&#237;a
+    </button>
+  </div>
+</section>
+
+<!-- ── TIPS ── -->
+<section class="tips">
+  <div style="max-width:1080px;margin:0 auto;">
+    <div class="tips-title">Consejos para mejores resultados</div>
+    <div class="tips-grid">
+      <div class="tip">
+        <div class="tip-icon">&#128247;</div>
+        <div><h4>Toma fotos con solapamiento</h4><p>Aseg&#250;rate de que cada foto cubra parte de la anterior (20-40%).</p></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">&#9728;&#65039;</div>
+        <div><h4>Luz uniforme</h4><p>Evita cambios bruscos de luz entre tomas para mejores resultados.</p></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">&#128208;</div>
+        <div><h4>Mant&#233;n estabilidad</h4><p>Usa un tr&#237;pode si puedes y mueve la c&#225;mara suavemente.</p></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">&#128444;</div>
+        <div><h4>M&#225;s fotos, m&#225;s detalle</h4><p>Entre m&#225;s fotos uses, mayor ser&#225; la resoluci&#243;n final.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <div class="footer-logo"><span style="font-size:16px;">&#128444;</span> PANOR&#193;MICAS &amp; <span>MEGAPIXEL</span></div>
+    <span class="footer-copy">&#169; 2026 UIS &middot; Visi&#243;n por Computador</span>
+  </div>
+ 
+
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

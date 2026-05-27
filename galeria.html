@@ -1,0 +1,204 @@
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería — Panorámicas & Megapixel UIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="galeria.css">
+  </head>
+  <body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="logo">
+      <div class="logo-icon">&#128444;</div>
+      PANOR&#193;MICAS &amp; <span>MEGAPIXEL</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#como-funciona">&#191;C&#243;mo funciona?</a></li>
+      <li><a href="index.html#subir">Subir im&#225;genes</a></li>
+      <li><a href="galeria.html" class="active">&#127760; Galer&#237;a</a></li>
+    </ul>
+    <button class="btn-primary" onclick="document.getElementById('subir-resultado').scrollIntoView({behavior:'smooth'})">
+      &#8679; Publicar mi panorámica
+    </button>
+  </nav>
+
+  <!-- ── HERO GALERÍA ── -->
+  <section class="galeria-hero">
+    <div class="galeria-hero-inner">
+      <div class="hero-badge">&#127760; Comunidad UIS · 2026</div>
+      <h1>Galer&#237;a de<br><span class="highlight">Panorámicas</span></h1>
+      <p>Las mejores creaciones de la comunidad. Vota por tu favorita y sube tu resultado.</p>
+    </div>
+  </section>
+
+  <!-- ── FEATURED: MEJOR GIGAPIXEL ── -->
+  <section class="featured-section">
+    <div class="featured-inner">
+      <div class="featured-label">
+        <span class="trophy">&#127942;</span> Mejor Gigapixel destacado
+      </div>
+      <div class="featured-card" id="featured-card">
+        <div class="featured-viewer" id="featured-viewer">
+          <img id="featured-img"
+            src="assets/images/gigapixel.png"
+            draggable="false" alt="Mejor gigapixel">
+          <div class="featured-overlay">
+            <div class="featured-info">
+              <span class="featured-author" id="featured-author">Imagen destacada UIS</span>
+              <span class="featured-mp" id="featured-mp"></span>
+            </div>
+            <div class="featured-zoom-hint">Scroll para zoom · arrastra para mover</div>
+          </div>
+        </div>
+        <div class="featured-controls">
+  <button class="ctrl-btn" onclick="zoomFeatured(1.3)">+</button>
+  <button class="ctrl-btn" onclick="zoomFeatured(0.77)">&#8722;</button>
+  <button class="ctrl-btn" onclick="resetFeatured()">&#8861;</button>
+  <button class="ctrl-btn" onclick="fullscreenFeatured()">⛶</button>
+  <span class="featured-res" id="featured-res">— MP</span>
+</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DASHBOARD / RANKING ── -->
+  <section class="dashboard-section">
+    <div class="dashboard-inner">
+      <div class="dashboard-header">
+        <h2>&#127942; Ranking de likes</h2>
+        <span class="dashboard-sub">¿Quién tiene la mejor panorámica?</span>
+      </div>
+      <div class="podium" id="podium">
+        <!-- JS lo rellena -->
+        <div class="podium-loading">Cargando ranking...</div>
+      </div>
+      <div class="stats-row" id="stats-row">
+        <!-- Stats globales -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALERÍA GRID ── -->
+  <section class="grid-section">
+    <div class="grid-inner">
+      <div class="grid-toolbar">
+        <h2>Todas las panorámicas</h2>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filtrar('todas', this)">Todas</button>
+          <button class="filter-tab" onclick="filtrar('panoramica', this)">&#127749; Panorámicas</button>
+          <button class="filter-tab" onclick="filtrar('megapixel', this)">&#128301; Megapixel</button>
+          <button class="filter-tab" onclick="filtrar('recientes', this)">&#128337; Recientes</button>
+        </div>
+      </div>
+
+      <div class="pano-grid" id="pano-grid">
+        <div class="grid-loading">
+          <div class="spinner"></div>
+          <p>Cargando galería...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SUBIR RESULTADO ── -->
+  <section class="subir-section" id="subir-resultado">
+    <div class="subir-inner">
+      <div class="subir-header">
+        <h2>&#8679; Publica tu resultado</h2>
+        <p>¿Creaste una panorámica increíble? Compártela con la comunidad.</p>
+      </div>
+
+      <div class="subir-card">
+        <!-- Paso 1: Subir imagen -->
+        <div class="subir-paso" id="paso-1">
+          <div class="paso-num">1</div>
+          <h4>Selecciona tu imagen</h4>
+          <div class="subir-area" id="subir-area">
+            <input type="file" id="subir-input" accept="image/*" style="display:none">
+            <div class="upload-icon">&#128247;</div>
+            <p>Arrastra tu panorámica aquí o haz click</p>
+            <span>JPG, PNG · máx. 10 MB</span>
+          </div>
+          <div class="preview-container" id="preview-container" style="display:none">
+            <img id="preview-img" alt="Preview">
+            <button class="btn-quitar" onclick="quitarPreview()">&#215; Quitar</button>
+          </div>
+        </div>
+
+        <!-- Paso 2: Nombre -->
+        <div class="subir-paso" id="paso-2">
+          <div class="paso-num">2</div>
+          <h4>Tu nombre</h4>
+          <input type="text" id="input-nombre" class="nombre-input"
+            placeholder="Ej: Kevin Salinas" maxlength="40">
+          <div class="tipo-row">
+            <span>Tipo:</span>
+            <button class="tipo-btn active" id="tipo-pan" onclick="setTipo('panoramica')">&#127749; Panorámica</button>
+            <button class="tipo-btn" id="tipo-meg" onclick="setTipo('megapixel')">&#128301; Megapixel</button>
+          </div>
+        </div>
+
+        <!-- Paso 3: Publicar -->
+        <div class="subir-paso" id="paso-3">
+          <div class="paso-num">3</div>
+          <h4>Publicar</h4>
+          <button class="btn-primary btn-publicar" id="btn-publicar" onclick="publicarImagen()">
+            &#8679; Publicar en la galería
+          </button>
+          <div class="subir-progress" id="subir-progress" style="display:none">
+            <div class="spinner" style="width:28px;height:28px;margin:0 auto 8px;"></div>
+            <p id="subir-status">Subiendo imagen...</p>
+          </div>
+          <div class="subir-error" id="subir-error"></div>
+          <div class="subir-success" id="subir-success" style="display:none">
+            &#10003; ¡Publicada! Ya aparece en la galería.
+            <button onclick="verGaleria()">Ver galería ↓</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MODAL VISOR ── -->
+  <div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="cerrarModal()">&#215;</button>
+      <div class="modal-viewer" id="modal-viewer">
+        <img id="modal-img" draggable="false" alt="">
+      </div>
+      <div class="modal-footer">
+        <div class="modal-info">
+          <span class="modal-autor" id="modal-autor"></span>
+          <span class="modal-tipo" id="modal-tipo"></span>
+          <span class="modal-fecha" id="modal-fecha"></span>
+        </div>
+        <div class="modal-actions">
+          <button class="like-btn-big" id="modal-like-btn" onclick="likeModal()">
+            &#10084; <span id="modal-likes">0</span> likes
+          </button>
+          <a class="btn-download" id="modal-download" href="#" target="_blank" download>
+            &#8595; Descargar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div style="display:flex;align-items:center;gap:24px;">
+      <div class="footer-logo"><span style="font-size:16px;">&#128444;</span> PANOR&#193;MICAS &amp; <span>MEGAPIXEL</span></div>
+      <span class="footer-copy">&#169; 2026 UIS &middot; Visión por Computador</span>
+    </div>
+    
+  </footer>
+
+  <script src="galeria.js"></script>
+  </body>
+  </html>
